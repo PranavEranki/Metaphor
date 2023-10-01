@@ -10,6 +10,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]); 
   const [selectedResults, setSelectedResults] = useState(new Set());
   const [searchInitiated, setSearchInitiated] = useState(false);
+  const [exportSelected, setExportSelected] = useState([]);
   const [showSelected, setShowSelected] = useState(false); // To control which view to show
 
 
@@ -52,7 +53,42 @@ function App() {
       });
   };
   
-  const handleExport = () => {
+
+  const handleContinue = () => {
+    if (selectedResults.size === 0) {
+      alert("Please select at least one result to continue or search a new query if unsatisfied with the results.");
+      return;
+    }
+    setExportSelected(new Set());
+    setShowSelected(true);
+  };
+
+  const handleRestart = () => {
+    setShowSelected(false);
+    setSearchResults([]);
+    setSelectedResults(new Set());
+    setSearchInitiated(false);
+  };
+
+  const handleExportSome = () => {
+    // Convert selected results into CSV format
+    const selected = searchResults.filter(result => exportSelected.has(result.id));
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,URL,Author,Published Date\n";
+    selected.forEach(result => {
+        csvContent += `"${result.title}","${result.url}","${result.author || 'N/A'}","${result.publishedDate || 'N/A'}"\n`;
+    });
+
+    // Trigger download
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "selected_results.csv");
+    document.body.appendChild(link);
+    link.click();
+  }
+
+  const handleExportAll = () => {
       // Convert selected results into CSV format
       const selected = searchResults.filter(result => selectedResults.has(result.id));
       let csvContent = "data:text/csv;charset=utf-8,";
@@ -69,22 +105,16 @@ function App() {
       document.body.appendChild(link);
       link.click();
   };
-  
 
-    const handleContinue = () => {
-      if (selectedResults.size === 0) {
-        alert("Please select at least one result to continue or search a new query if unsatisfied with the results.");
-        return;
+    const toggleForExport = (id) => {
+      const newSelected = new Set(exportSelected);
+      if (newSelected.has(id)) {
+          newSelected.delete(id);
+      } else {
+          newSelected.add(id);
       }
-      setShowSelected(true);
-    };
-
-    const handleRestart = () => {
-      setShowSelected(false);
-      setSearchResults([]);
-      setSelectedResults(new Set());
-      setSearchInitiated(false);
-    };
+      setExportSelected(newSelected);
+    }
 
   return (
     <div className="App">
@@ -97,10 +127,11 @@ function App() {
           <div>
             {Array.from(selectedResults).map(id => {
               const result = searchResults.find(r => r.id === id);
-              return <SearchResultCard key={id} result={result} />;
+              return <SearchResultCard key={id} result={result} onToggle={toggleForExport}/>;
             })}
             <button onClick={handleRestart}>Start Again</button>
-            <button onClick={handleExport}>Export to CSV</button>
+            <button onClick={handleExportSome}>Export selected to CSV</button>
+            <button onClick={handleExportAll}>Export ALL to CSV</button>
           </div>
         ) : (
           <div>
