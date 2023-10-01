@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PromptingTips.css'; // Assuming you'll be using CSS Modules
+import './PromptingTips.css';
 
 function PromptingTips() {
   const [showExamples, setShowExamples] = useState(false);

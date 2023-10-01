@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
+}
+
+
+button {
+  
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: linear-gradient(100.48deg, rgb(75, 95, 255) 8.23%, rgb(195, 67, 255) 132.47%);
+  color: white; /* Font color */
+  padding: 10px 20px; /* Adjust as needed */
+  transition: 0.3s; /* Smoothens the hover effect */
+  margin-left: 20px;
+
+  /* You can adjust the font as desired */
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button:hover {
+  /* Add a slightly different gradient for hover effect, or any other style you like */
+  background: linear-gradient(100.48deg, rgb(95, 115, 255) 8.23%, rgb(215, 87, 255) 132.47%);
+}
