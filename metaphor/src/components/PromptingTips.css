@@ -1,0 +1,27 @@
+.gradient-text {
+    background: linear-gradient(100.48deg, rgb(75, 95, 255) 8.23%, rgb(195, 67, 255) 132.47%);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  
+  .examples-dropdown {
+    margin-top: 10px;
+  }
+  
+  .dropdown-btn {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: inherit;
+    font-size: inherit;
+  }
+  
+  .dropdown-btn:hover {
+    text-decoration: underline;
+  }
+  
+  .prompting-tips ul {
+    list-style-type: none;
+    padding-left: 0; /* This will remove any default padding for the list */
+}
