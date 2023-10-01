@@ -43,9 +43,9 @@ function App() {
       })
       .then(response => response.json())
       .then(data => {
-        const currentUrls = new Set(searchResults.map(result => result.url));
-        const uniqueNewResults = data.results.filter(newResult => !currentUrls.has(newResult.url));
-        setSearchResults([...searchResults, ...uniqueNewResults]);
+        const currentIds = new Set(searchResults.map(result => result.id));
+        const uniqueNewResults = data.results.filter(newResult => !currentIds.has(newResult.id));
+        setSearchResults([...uniqueNewResults]);
         setSelectedResults(new Set()); // unselect
       })
       .catch(error => {
